@@ -45,10 +45,7 @@ FEATURES_PATH = os.path.join("models", "feature_columns.pkl")
 try:
     with open(MODEL_PATH, "rb") as f:
         model = pickle.load(f)
-    with open(ENCODER_PATH, "rb") as f:
-        encoder = pickle.load(f)
-    with open(FEATURES_PATH, "rb") as f:
-        feature_columns = pickle.load(f)
+  
     MODEL_LOAD_ERROR = None
 except Exception as e:
     model = None
@@ -118,7 +115,8 @@ def predict_match() -> Dict[str, Any]:
         features = create_feature_vector(surface)
         # Model expects a 2D array
         proba = model.predict_proba([features])[0]
-        # In this binary classification the first probability
+ 
+       # In this binary classification the first probability
         # corresponds to the "loser" class and the second to the
         # "winner" class as defined during training. We treat
         # `player1` as the candidate winner.
@@ -153,6 +151,7 @@ def create_feature_vector(surface: str) -> np.ndarray:
     """Constructs a feature vector for prediction.
 
     The underlying model was trained with 15 numeric features
+
     (representing elo ratings, ages, heights, recent form, surface win
     rates, head‑to‑head count, tournament wins and days since last match
     for each player) plus one‑hot encoded surface columns. Since this
